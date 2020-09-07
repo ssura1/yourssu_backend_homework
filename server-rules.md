@@ -111,7 +111,7 @@
             "content": "Second TODO content of hi"
         },
         {
-            "todo_state": "TODO",
+            "todo_state": "DONE",
             "todo_id": 3,
             "email": "bye@naver.com",
             "content": "First TODO content of bye"
