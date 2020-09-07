@@ -35,9 +35,7 @@ public class TodoApiController {
 
     @GetMapping("/todo/all")
     public void getAllTodoList(HttpServletResponse response) {
-
+        org.json.simple.JSONObject jsonObject = todoService.findTodosOfAllUsers();
+        WriteToClient.send(response, jsonObject);
     }
-
-
-
 }
