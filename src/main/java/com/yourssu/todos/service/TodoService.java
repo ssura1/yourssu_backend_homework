@@ -9,10 +9,13 @@ import com.yourssu.todos.dto.TodoUserResponseDto;
 import com.yourssu.todos.exception.TodoListNotFoundException;
 import com.yourssu.todos.exception.TodoNotFoundByUserException;
 import com.yourssu.tools.ObjectMaker;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -217,6 +220,14 @@ public class TodoService {
     @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject findByPage(int page, int itemCount) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        Page<Todos> todos = todosRepository.findAll(PageRequest.of(page, itemCount, Sort.by(new Sort.Order(Sort.Direction.DESC, "content"))));
+        org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
+        for(Todos todo : todos) {
+            org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+            jTemp.putAll(todo.convertMap());
+            jsonArray.add(jTemp);
+        }
+        jsonObject.put("todos", jsonArray);
         return jsonObject;
     }
 }

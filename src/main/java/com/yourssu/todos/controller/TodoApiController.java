@@ -73,4 +73,9 @@ public class TodoApiController {
     public void findDesc(HttpServletResponse response) {
         WriteToClient.send(response, todoService.findAllBySortDesc());
     }
+
+    @GetMapping("/todo/{page}/{itemCount}")
+    public void findByPaging(@PathVariable Integer page, @PathVariable Integer itemCount, HttpServletResponse response) {
+        WriteToClient.send(response, todoService.findByPage(page, itemCount));
+    }
 }
