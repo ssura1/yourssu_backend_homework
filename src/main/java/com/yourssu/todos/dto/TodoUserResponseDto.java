@@ -1,10 +1,12 @@
 package com.yourssu.todos.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class TodoUserResponseDto {

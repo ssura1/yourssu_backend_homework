@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import com.yourssu.tools.WriteToClient;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RequiredArgsConstructor
@@ -33,9 +34,20 @@ public class TodoApiController {
         WriteToClient.send(response, jsonObject);
     }
 
+    @GetMapping("/todo/all/v2")
+    public void findAll(HttpServletResponse response) {
+        org.json.simple.JSONObject jsonObject = todoService.findAll();
+        WriteToClient.send(response, jsonObject);
+    }
     @GetMapping("/todo/all")
     public void getAllTodoList(HttpServletResponse response) {
         org.json.simple.JSONObject jsonObject = todoService.findTodosOfAllUsers();
+        WriteToClient.send(response, jsonObject);
+    }
+
+    @GetMapping("/todo/{id}")
+    public void getTodoById(@PathVariable Integer id, HttpServletResponse response) {
+        org.json.simple.JSONObject jsonObject = todoService.findTodoById(id);
         WriteToClient.send(response, jsonObject);
     }
 }

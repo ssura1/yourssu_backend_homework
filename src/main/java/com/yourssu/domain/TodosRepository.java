@@ -1,5 +1,6 @@
 package com.yourssu.domain;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -7,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yourssu.tools.SQL;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TodosRepository extends JpaRepository<Todos, Integer> {
 
@@ -20,4 +22,8 @@ public interface TodosRepository extends JpaRepository<Todos, Integer> {
 
     @Query(value = SQL.TODOs.GET_TODO_OF_ALL_USER, nativeQuery = true)
     List<Object[]> findTodosOfAllUsers();
+
+    Optional<Todos> findById(Integer id);
+
+    List<Todos> findAll();
 }
