@@ -63,4 +63,9 @@ public class TodoApiController {
         org.json.simple.JSONObject jsonObject = todoService.findTodoById(id);
         WriteToClient.send(response, jsonObject);
     }
+
+    @GetMapping("/todo/first/{email}")
+    public void findFirst(@PathVariable String email, HttpServletResponse response) {
+        WriteToClient.send(response, todoService.findFirst(email));
+    }
 }

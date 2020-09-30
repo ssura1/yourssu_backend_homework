@@ -30,4 +30,6 @@ public interface TodosRepository extends JpaRepository<Todos, Integer> {
     List<Todos> findByEmail(String email);
 
     List<Todos> findByContentContaining(String keyword);
+
+    Todos findFirstByEmail(String email);
 }

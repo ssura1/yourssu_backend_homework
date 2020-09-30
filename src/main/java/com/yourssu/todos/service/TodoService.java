@@ -185,4 +185,16 @@ public class TodoService {
         }
         return jsonObject;
     }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject findFirst(String email) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        Todos todo = todosRepository.findFirstByEmail(email);
+        jsonObject.put("result", true);
+        jsonObject.put("email", todo.getEmail());
+        jsonObject.put("content", todo.getContent());
+        jsonObject.put("state", todo.getTodo_state());
+        return jsonObject;
+    }
 }
