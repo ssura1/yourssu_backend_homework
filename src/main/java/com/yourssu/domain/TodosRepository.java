@@ -1,5 +1,7 @@
 package com.yourssu.domain;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -35,4 +37,8 @@ public interface TodosRepository extends JpaRepository<Todos, Integer> {
     Todos save(Todos todos);
 
     Todos getOne(Integer id);
+
+    List<Todos> findAllByOrderByContentDesc();
+
+    List<Todos> findAll(Sort sort);
 }

@@ -9,6 +9,7 @@ import com.yourssu.todos.dto.TodoUserResponseDto;
 import com.yourssu.todos.exception.TodoListNotFoundException;
 import com.yourssu.todos.exception.TodoNotFoundByUserException;
 import com.yourssu.tools.ObjectMaker;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -194,6 +195,28 @@ public class TodoService {
         jsonObject.put("email", todo.getEmail());
         jsonObject.put("content", todo.getContent());
         jsonObject.put("state", todo.getTodo_state());
+        return jsonObject;
+    }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject findAllBySortDesc() {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        List<Todos> todos = todosRepository.findAll(Sort.by(new Sort.Order(Sort.Direction.DESC, "content")));
+        org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
+        for(Todos todo : todos) {
+            org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+            jTemp.putAll(todo.convertMap());
+            jsonArray.add(jTemp);
+        }
+        jsonObject.put("todos", jsonArray);
+        return jsonObject;
+    }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject findByPage(int page, int itemCount) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         return jsonObject;
     }
 }

@@ -68,4 +68,9 @@ public class TodoApiController {
     public void findFirst(@PathVariable String email, HttpServletResponse response) {
         WriteToClient.send(response, todoService.findFirst(email));
     }
+
+    @GetMapping("/todo/desc")
+    public void findDesc(HttpServletResponse response) {
+        WriteToClient.send(response, todoService.findAllBySortDesc());
+    }
 }
