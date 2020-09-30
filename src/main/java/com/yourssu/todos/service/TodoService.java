@@ -127,9 +127,8 @@ public class TodoService {
     public org.json.simple.JSONObject findTodoById(Integer id) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {
-            Optional<Todos> todos = todosRepository.findById(id);
-            if(todos.isPresent()) {
-                Todos todo = todos.get();
+            Todos todo = todosRepository.getOne(id);
+            if(todo != null) {
                 jsonObject.put("result", true);
                 jsonObject.put("email", todo.getEmail());
                 jsonObject.put("content", todo.getContent());

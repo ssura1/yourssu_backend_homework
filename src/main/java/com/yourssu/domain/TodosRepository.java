@@ -33,4 +33,6 @@ public interface TodosRepository extends JpaRepository<Todos, Integer> {
     Todos findFirstByEmail(String email);
 
     Todos save(Todos todos);
+
+    Todos getOne(Integer id);
 }
