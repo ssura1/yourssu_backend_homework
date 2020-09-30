@@ -164,4 +164,25 @@ public class TodoService {
         }
         return jsonObject;
     }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject searchTodo(String keyword) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            List<Todos> list = todosRepository.findByContentContaining(keyword);
+            if(list.size() == 0) throw new Exception("검색된 목록이 없습니다.");
+            jsonObject.put("result", true);
+            org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
+            for(Todos todo : list) {
+                org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+                jTemp.putAll(todo.convertMap());
+                jsonArray.add(jTemp);
+            }
+            jsonObject.put("todos", jsonArray);
+        } catch(Exception exception) {
+            jsonObject = ObjectMaker.getSimpleJSONObjectWithException(exception);
+        }
+        return jsonObject;
+    }
 }

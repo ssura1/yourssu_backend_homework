@@ -46,6 +46,12 @@ public class TodoApiController {
         WriteToClient.send(response, jsonObject);
     }
 
+    @GetMapping("/todo/search/{keyword}")
+    public void searchTodos(@PathVariable String keyword, HttpServletResponse response) {
+        org.json.simple.JSONObject jsonObject = todoService.searchTodo(keyword);
+        WriteToClient.send(response, jsonObject);
+    }
+
     @GetMapping("/todo/all")
     public void getAllTodoList(HttpServletResponse response) {
         org.json.simple.JSONObject jsonObject = todoService.findTodosOfAllUsers();
