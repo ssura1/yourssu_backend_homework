@@ -1,6 +1,5 @@
 package com.yourssu.domain;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -32,4 +31,6 @@ public interface TodosRepository extends JpaRepository<Todos, Integer> {
     List<Todos> findByContentContaining(String keyword);
 
     Todos findFirstByEmail(String email);
+
+    Todos save(Todos todos);
 }
