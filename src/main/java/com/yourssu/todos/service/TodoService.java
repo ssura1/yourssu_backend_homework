@@ -143,4 +143,25 @@ public class TodoService {
         }
         return jsonObject;
     }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject findByEmail(String email) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            List<Todos> list = todosRepository.findByEmail(email);
+            if(list.size() == 0) throw new TodoNotFoundByUserException();
+            jsonObject.put("result", true);
+            org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
+            for(Todos todo : list) {
+                org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+                jTemp.putAll(todo.convertMap());
+                jsonArray.add(jTemp);
+            }
+            jsonObject.put("todos", jsonArray);
+        } catch(TodoNotFoundByUserException exception) {
+            jsonObject = ObjectMaker.getSimpleJSONObjectWithException(exception);
+        }
+        return jsonObject;
+    }
 }

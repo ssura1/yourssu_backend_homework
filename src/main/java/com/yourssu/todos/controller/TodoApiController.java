@@ -39,6 +39,13 @@ public class TodoApiController {
         org.json.simple.JSONObject jsonObject = todoService.findAll();
         WriteToClient.send(response, jsonObject);
     }
+
+    @GetMapping("/todo/list/{email}/v2")
+    public void findByEmail(@PathVariable String email, HttpServletResponse response) {
+        org.json.simple.JSONObject jsonObject = todoService.findByEmail(email);
+        WriteToClient.send(response, jsonObject);
+    }
+
     @GetMapping("/todo/all")
     public void getAllTodoList(HttpServletResponse response) {
         org.json.simple.JSONObject jsonObject = todoService.findTodosOfAllUsers();

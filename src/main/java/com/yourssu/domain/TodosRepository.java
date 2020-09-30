@@ -26,4 +26,6 @@ public interface TodosRepository extends JpaRepository<Todos, Integer> {
     Optional<Todos> findById(Integer id);
 
     List<Todos> findAll();
+
+    List<Todos> findByEmail(String email);
 }
