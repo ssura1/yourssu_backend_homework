@@ -13,6 +13,7 @@ import com.yourssu.tools.ObjectMaker;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -234,9 +235,12 @@ public class TodoService {
 
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
-    public org.json.simple.JSONObject searchSpec(String keyword, int page, int itemCount) {
+    public org.json.simple.JSONObject searchSpec(String keyword, String email, int page, int itemCount) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
-        Page<Todos> todos = todosRepository.findAll(TodoSpecs.containSpec(keyword), PageRequest.of(page, itemCount));
+        Specification<Todos> specs = TodoSpecs.containSpec(keyword);
+        specs = specs.and(TodoSpecs.emailSpec(email));
+        Page<Todos> todos = todosRepository.findAll(specs, PageRequest.of(page, itemCount));
+
         org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
         for(Todos todo : todos) {
             org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
