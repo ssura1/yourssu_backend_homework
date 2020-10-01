@@ -78,4 +78,9 @@ public class TodoApiController {
     public void findByPaging(@PathVariable Integer page, @PathVariable Integer itemCount, HttpServletResponse response) {
         WriteToClient.send(response, todoService.findByPage(page, itemCount));
     }
+
+    @GetMapping("/api/v1/todo/{keyword}/{page}/{itemCount}")
+    public void searchBySpec(@PathVariable String keyword, @PathVariable Integer page, @PathVariable Integer itemCount, HttpServletResponse response) {
+        WriteToClient.send(response, todoService.searchSpec(keyword, page, itemCount));
+    }
 }

@@ -1,5 +1,6 @@
 package com.yourssu.todos.service;
 
+import com.yourssu.domain.TodoSpecs;
 import com.yourssu.domain.Todos;
 import com.yourssu.domain.TodosRepository;
 import com.yourssu.todos.dto.TodoInsertRequestDto;
@@ -221,6 +222,21 @@ public class TodoService {
     public org.json.simple.JSONObject findByPage(int page, int itemCount) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         Page<Todos> todos = todosRepository.findAll(PageRequest.of(page, itemCount, Sort.by(new Sort.Order(Sort.Direction.DESC, "content"))));
+        org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
+        for(Todos todo : todos) {
+            org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+            jTemp.putAll(todo.convertMap());
+            jsonArray.add(jTemp);
+        }
+        jsonObject.put("todos", jsonArray);
+        return jsonObject;
+    }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject searchSpec(String keyword, int page, int itemCount) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        Page<Todos> todos = todosRepository.findAll(TodoSpecs.containSpec(keyword), PageRequest.of(page, itemCount));
         org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
         for(Todos todo : todos) {
             org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
